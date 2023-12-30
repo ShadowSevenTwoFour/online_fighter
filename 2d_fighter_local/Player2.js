@@ -53,6 +53,11 @@ const player2 = new Sprite({
             damage: 10,
             knockback: 20,
             time: 20
+        },
+        downward_air: {
+            damage: 10,
+            knockback: 20,
+            time: 20
         }
     }
 });

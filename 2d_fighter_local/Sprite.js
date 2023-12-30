@@ -1,6 +1,8 @@
 class Sprite {
-    constructor({position, velocity, dim, colour, offset, attackset}){
+    constructor({position, velocity, dim, colour, offset, attackset, spritepath}){
         //maintainence
+        this.current_attack = null
+        this.current_sprite = spritepath.one
         this.position = position
         this.velocity = velocity
         this.height = dim.height
@@ -54,21 +56,47 @@ class Sprite {
     }
     attack(directionKey) {
         this.isAttacking = true
-        let current_attack
 
         switch (directionKey) {
             case 'w':
-                current_attack = this.attackset.upward
+                if (this.isJumping){
+                    this.current_attack = this.attackset.upward_air
+                } else {
+                    this.current_attack = this.attackset.upward
+                }
                 break
-            case 'a':
-                current_attack = this.attackset.backward_air
+            case 'a': 
+                if (this.isJumping){
+                    if(this.lastKeyHoriz == 'a'){
+                        this.current_attack = this.attackset.forward_air
+                    } else {
+                        this.current_attack = this.attackset.backward_air
+                    }
+                } else {
+                    this.current_attack = this.attackset.forward
+                }
                 break
             case 's':
-                current_attack = this.attackset.neutral_air
+                if (this.isJumping){
+                    this.current_attack = this.attackset.downward_air
+                } else {
+                    
+                }
+                
                 break
             case 'd':
-                current_attack = this.attackset.forward_air
+                if (this.isJumping){
+                    if(this.lastKeyHoriz == 'd'){
+                        this.current_attack = this.attackset.forward_air
+                    } else {
+                        this.current_attack = this.attackset.backward_air
+                    }
+                } else {
+                    this.current_attack = this.attackset.forward
+                }
                 break
+            default:
+                
         }
         setTimeout(() => {
             this.isAttacking = false
